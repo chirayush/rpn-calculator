@@ -1,26 +1,37 @@
-/* See the file "LICENSE" for the full license governing this code. */
 package com.dalelotts.rpn;
 
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-
-/**
- * Implementation of a Reverse Polish Notation calculator.
- *
- * @author Dale "Ducky" Lotts
- * @since 10/27/15.
- */
+import java.util.Stack;
 
 final class Calculator {
 
-	public void run() {
+    private final PrintStream printStream;
+    private final Scanner scanner;
 
-		final Scanner scanner = new Scanner(System.in);
-		System.out.println("Please enter values followed by operation symbols:");
-		System.out.println("(Press CTRL+Z to end the program):");
+    Calculator(Scanner scanner, PrintStream printStream) {
+        this.scanner = scanner;
+        this.printStream = printStream;
+    }
 
-		while (scanner.hasNext()) {
-			final String tokenString = scanner.next();
-			System.out.println(tokenString);
-		}
-	}
+    void run() {
+        final List<String> inputList = new ArrayList<>();
+        while (scanner.hasNext()) {
+            inputList.add(scanner.next());
+        }
+
+        final Stack<Integer> operatorStack = new Stack<>();
+        for (String input : inputList) {
+            if (!input.equals("+")) {
+                operatorStack.push(Integer.parseInt(input));
+            } else {
+                int value1 = operatorStack.pop();
+                int value2 = operatorStack.pop();
+                operatorStack.push(value1 + value2);
+            }
+        }
+        operatorStack.forEach(printStream::println);
+    }
 }

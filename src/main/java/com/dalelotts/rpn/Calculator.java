@@ -1,15 +1,30 @@
 package com.dalelotts.rpn;
 
 import java.io.PrintStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Stack;
+import java.util.function.DoubleBinaryOperator;
 
 final class Calculator {
 
+    private static final Map<String, DoubleBinaryOperator> OPERATOR_MAP;
     private final PrintStream printStream;
     private final Scanner scanner;
+
+    static {
+        Map<String, DoubleBinaryOperator> operations = new HashMap<>();
+        operations.put("+", Double::sum);
+        operations.put("-", (a, b) -> a - b);
+        operations.put("*", (a, b) -> a * b);
+        operations.put("/", (a, b) -> a / b);
+        OPERATOR_MAP = Collections.unmodifiableMap(operations);
+    }
 
     Calculator(Scanner scanner, PrintStream printStream) {
         this.scanner = scanner;
@@ -22,16 +37,20 @@ final class Calculator {
             inputList.add(scanner.next());
         }
 
-        final Stack<Integer> operatorStack = new Stack<>();
-        for (String input : inputList) {
-            if (!input.equals("+")) {
-                operatorStack.push(Integer.parseInt(input));
+        final Stack<Double> operatorStack = new Stack<>();
+        inputList.forEach(input -> {
+            if (!OPERATOR_MAP.keySet().contains(input)) {
+                operatorStack.push(Double.parseDouble(input));
             } else {
-                int value1 = operatorStack.pop();
-                int value2 = operatorStack.pop();
-                operatorStack.push(value1 + value2);
+                double value1 = operatorStack.pop();
+                double value2 = operatorStack.pop();
+                double value = OPERATOR_MAP.get(input).applyAsDouble(value2, value1);
+                operatorStack.push(value);
             }
+        });
+        for (Double value : operatorStack) {
+            DecimalFormat decimalFormat = new DecimalFormat("0.##");
+            printStream.println(decimalFormat.format(value));
         }
-        operatorStack.forEach(printStream::println);
     }
 }

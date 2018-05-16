@@ -43,4 +43,46 @@ public class CalculatorTest {
         calculator.run();
         assertThat(outputStream.toString(), equalTo("13\n"));
     }
+
+    @Test
+    public void runShouldSumTwiceIfNumberFollowedByPlusSign() {
+        calculator = new Calculator(new Scanner("3 4 + 9 +"), printStream);
+        calculator.run();
+        assertThat(outputStream.toString(), equalTo("16\n"));
+    }
+
+    @Test
+    public void runShouldSubtractIfFollowedByDifferenceSign() {
+        calculator = new Calculator(new Scanner("2 5 -"), printStream);
+        calculator.run();
+        assertThat(outputStream.toString(), equalTo("-3\n"));
+    }
+
+    @Test
+    public void runShouldAddAndThenSubtractWhenPlusFollowedByAMinusSign() {
+        calculator = new Calculator(new Scanner("7 5 2 - +"), printStream);
+        calculator.run();
+        assertThat(outputStream.toString(), equalTo("10\n"));
+    }
+
+    @Test
+    public void runShouldMultiplyIfFollowedByAStarSign() {
+        calculator = new Calculator(new Scanner("2 5 *"), printStream);
+        calculator.run();
+        assertThat(outputStream.toString(), equalTo("10\n"));
+    }
+    
+    @Test
+    public void runShouldDivideIfFollowdBySlashSign() {
+        calculator = new Calculator(new Scanner("10 5 /"), printStream);
+        calculator.run();
+        assertThat(outputStream.toString(), equalTo("2\n"));
+    }
+
+    @Test
+    public void runShouldAddThenSubtractAndThenMultiplyDoubleNumbers() {
+        calculator = new Calculator(new Scanner("2.3 5.5 6.2 + - 3.6 * 6.7"), printStream);
+        calculator.run();
+        assertThat(outputStream.toString(), equalTo("-33.84\n6.7\n"));
+    }
 }

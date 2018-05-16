@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +33,24 @@ final class Calculator {
     }
 
     void run() {
+        final List<String> inputList = readInputList();
+
+        try {
+            calculateRPN(inputList);
+        } catch (EmptyStackException ex) {
+            printStream.println("Please enter valid input");
+        }
+    }
+
+    private List<String> readInputList() {
         final List<String> inputList = new ArrayList<>();
         while (scanner.hasNext()) {
             inputList.add(scanner.next());
         }
+        return inputList;
+    }
 
+    private void calculateRPN(List<String> inputList) {
         final Stack<Double> operatorStack = new Stack<>();
         inputList.forEach(input -> {
             if (!OPERATOR_MAP.keySet().contains(input)) {

@@ -85,4 +85,25 @@ public class CalculatorTest {
         calculator.run();
         assertThat(outputStream.toString(), equalTo("-33.84\n6.7\n"));
     }
+
+    @Test
+    public void runShouldErrorIfBeginsWithAnOperator() {
+        calculator = new Calculator(new Scanner("-"), printStream);
+        calculator.run();
+        assertThat(outputStream.toString(), equalTo("Please enter valid input\n"));
+    }
+
+    @Test
+    public void runShouldErrorIf1NumberFollowedByOperator() {
+        calculator = new Calculator(new Scanner("5 +"), printStream);
+        calculator.run();
+        assertThat(outputStream.toString(), equalTo("Please enter valid input\n"));
+    }
+
+    @Test
+    public void runShouldErrorIfMoreOperatorsThanNumbers() {
+        calculator = new Calculator(new Scanner("3 3 / - +"), printStream);
+        calculator.run();
+        assertThat(outputStream.toString(), equalTo("Please enter valid input\n"));
+    }
 }

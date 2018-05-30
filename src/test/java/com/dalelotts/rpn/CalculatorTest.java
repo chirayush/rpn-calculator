@@ -48,5 +48,4 @@ public class CalculatorTest {
         assertThat(outputStream.toString(), equalTo("Goodbye"));
     }
 
-
 }

@@ -1,26 +1,23 @@
-/* See the file "LICENSE" for the full license governing this code. */
 package com.dalelotts.rpn;
 
+import java.io.PrintStream;
 import java.util.Scanner;
-
-/**
- * Implementation of a Reverse Polish Notation calculator.
- *
- * @author Dale "Ducky" Lotts
- * @since 10/27/15.
- */
+import java.util.Stack;
 
 final class Calculator {
 
-	public void run() {
-
-		final Scanner scanner = new Scanner(System.in);
-		System.out.println("Please enter values followed by operation symbols:");
-		System.out.println("(Press CTRL+Z to end the program):");
-
-		while (scanner.hasNext()) {
-			final String tokenString = scanner.next();
-			System.out.println(tokenString);
-		}
-	}
+    void run(Scanner scanner, PrintStream printStream) {
+        Stack<Integer> operatingStack = new Stack<>();
+        while (scanner.hasNext()) {
+            final String input = scanner.next();
+            if (input.equals("+")) {
+                int value1 = operatingStack.pop();
+                int value2 = operatingStack.pop();
+                operatingStack.push(value1 + value2);
+            } else {
+                operatingStack.push(Integer.parseInt(input));
+            }
+        }
+        operatingStack.forEach(printStream::println);
+    }
 }

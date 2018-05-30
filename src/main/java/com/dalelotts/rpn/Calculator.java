@@ -19,13 +19,13 @@ final class Calculator {
                 int value1 = operatingStack.pop();
                 int value2 = operatingStack.pop();
                 operatingStack.push(value1 + value2);
-                operatingStack.forEach(value -> System.out.print("[" + value + "]"));
+                operatingStack.forEach(printStream::println);
             } else {
                 operatingStack.push(Integer.parseInt(input));
             }
 
         }
-        operatingStack.forEach(printStream::println);
+
     }
 
     private void printGoodbye(PrintStream printStream) {

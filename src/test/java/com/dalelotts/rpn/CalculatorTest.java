@@ -41,10 +41,11 @@ public class CalculatorTest {
         calculator.run(new Scanner("5 7 +"), printStream);
         assertThat(outputStream.toString(), equalTo("12\n"));
     }
-    
+
     @Test
-    public void runShouldQuitOn() {
-        
+    public void runShouldPrintGoodbyeOnQ() {
+        calculator.run(new Scanner("Q"), printStream);
+        assertThat(outputStream.toString(), equalTo("Goodbye"));
     }
 
 

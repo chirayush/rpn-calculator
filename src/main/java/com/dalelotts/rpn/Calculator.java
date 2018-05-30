@@ -10,14 +10,25 @@ final class Calculator {
         Stack<Integer> operatingStack = new Stack<>();
         while (scanner.hasNext()) {
             final String input = scanner.next();
+            if (input.equals("Q")) {
+                printGoodbye(printStream);
+                return;
+            }
+
             if (input.equals("+")) {
                 int value1 = operatingStack.pop();
                 int value2 = operatingStack.pop();
                 operatingStack.push(value1 + value2);
+                operatingStack.forEach(value -> System.out.print("[" + value + "]"));
             } else {
                 operatingStack.push(Integer.parseInt(input));
             }
+
         }
         operatingStack.forEach(printStream::println);
+    }
+
+    private void printGoodbye(PrintStream printStream) {
+        printStream.print("Goodbye");
     }
 }

@@ -12,6 +12,6 @@ public final class Main {
         System.out.println("(Press Q THEN ENTER to end the program):");
         final Scanner scanner = new Scanner(System.in);
 
-        new Calculator().run(scanner, System.out);
+        new Calculator(scanner, System.out).run();
     }
 }

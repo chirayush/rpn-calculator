@@ -6,7 +6,18 @@ import java.util.Stack;
 
 final class Calculator {
 
-    void run(Scanner scanner, PrintStream printStream) {
+    private final Scanner scanner;
+    private final PrintStream printStream;
+
+    Calculator(Scanner scanner, PrintStream printStream) {
+        this.scanner = scanner;
+        this.printStream = printStream;
+        if (scanner.next().equals("+")) {
+            throw new IllegalArgumentException(printStream.print("2 operands are required"));
+        }
+    }
+
+    void run() {
         Stack<Integer> operatingStack = new Stack<>();
         while (scanner.hasNext()) {
             final String input = scanner.next();
@@ -23,9 +34,8 @@ final class Calculator {
             } else {
                 operatingStack.push(Integer.parseInt(input));
             }
-
-            operatingStack.forEach(printStream::println);
-
+            operatingStack.forEach(value -> printStream.print("[" + value + "]"));
+            printStream.println();
         }
 
     }

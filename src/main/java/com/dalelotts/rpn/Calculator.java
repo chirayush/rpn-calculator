@@ -12,9 +12,6 @@ final class Calculator {
     Calculator(Scanner scanner, PrintStream printStream) {
         this.scanner = scanner;
         this.printStream = printStream;
-        if (scanner.next().equals("+")) {
-            throw new IllegalArgumentException(printStream.print("2 operands are required"));
-        }
     }
 
     void run() {
@@ -27,9 +24,13 @@ final class Calculator {
             }
 
             if (input.equals("+")) {
-                int value1 = operatingStack.pop();
-                int value2 = operatingStack.pop();
-                operatingStack.push(value1 + value2);
+                if (operatingStack.size() < 2) {
+                    printStream.println("2 operands are required");
+                } else {
+                    int value1 = operatingStack.pop();
+                    int value2 = operatingStack.pop();
+                    operatingStack.push(value1 + value2);
+                }
 
             } else {
                 operatingStack.push(Integer.parseInt(input));

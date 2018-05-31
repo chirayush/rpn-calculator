@@ -56,11 +56,11 @@ public class CalculatorTest {
         assertThat(outputStream.toString(), equalTo("Goodbye"));
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test
     public void runShouldThrowExceptionIfThe1stParameterIsAnOperator() {
         calculator = new Calculator(new Scanner("+"), printStream);
         calculator.run();
-        assertThat(outputStream.toString(), equalTo("2 operands are required"));
+        assertThat(outputStream.toString(), equalTo("2 operands are required\n\n"));
     }
 
 }
